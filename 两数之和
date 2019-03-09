@@ -1,0 +1,72 @@
+1.暴力求解
+    遍历整个数组，对于每一个元素x，查询数组中其余元素是否符合target = array[i]+array[j];
+    
+    代码：
+    public int[] twoSum(int[] nums, int target) {
+        for(int i = 0;i<nums.length;i++){
+            for(int j = i+1;j<nums.length;j++){
+                if(nums[j] == target - nums[i]){
+                     return new int[] { i, j };
+                }
+            }
+        }
+        throw new IllegalArgumentException("No two sum solution");
+    }
+    
+    复杂度分析：
+        时间复杂度：O(n^2)，对于数组中的每一个元素，我们需要检查剩余的所有的元素，这需要时间O(n),所以时间复杂度为O(n^2)。
+        空间复杂度：O(1)。
+        
+2.hash table
+    It can be found that the time complexity of the first method needs to be optimized. How can we quickly find the target element? 
+ The answer is sample,that is the hash table.
+    The fist iteration, we add each element value and corresponding index in the array to the hashTable. On the second iteration, 
+ then we check to see if the target element(target-nums[i]) exists in the hashTable.
+    
+    Code:
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i = 0;i<nums.length;i++){
+            map.put(nums[i],i);
+        }
+        for(int i = 0;i<nums.length;i++){
+            int tamp = target - nums[i];
+            if(map.containsKey(tamp)&&map.get(tamp)!=i){
+                return new int[]{i,map.get(tamp)};
+            }
+        }
+        throw new IllegalArgumentException("No two sum solution");
+    }
+    
+    
+    Complexity Analysis:
+        Time Complexity: O(n)  It can be known from the algorithm that we traverse the array of n elements twice, and the hashTable
+   lookup time is O(1), so the time complexity is O(n).
+        Space complexity: O(n)  The extra memory space required depends on the number of elements stored in the hashTable, which stores 
+        n elements.
+    
+    Tip: Optimization:   
+        Of course, after simple modification, we can traverse the array once, the complexity is the same as above, the code is as follows:
+        
+        public int[] twoSum(int[] nums, int target) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                int complement = target - nums[i];
+                if (map.containsKey(complement)) {
+                    return new int[] { map.get(complement), i };
+                }
+                map.put(nums[i], i);
+            }
+            throw new IllegalArgumentException("No two sum solution");
+        }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
