@@ -4,8 +4,6 @@ Method 1:   暴力破解法
         此思路比较简单，代码不再列出~
         
         Time Complexity: O（n^3)
-            For each substring we need to check all the characters, which will take a time (O(b-a),this assumes that the position of each substring
-               is a and b). For each given a, the time sum is O(
-        For each substring we need to check all the characters, which will take a time.
-        This assumes that the position of each substring is a, b. For a given a, the time sum is aa. Then the time of all operations is bbbb
- 
+        Space Complexity:
+        
+        We need a space to check if the substring contains duplicate characters, that is, depending on the size of the set, and set depends on the size of the string n and the size of the character set m.
