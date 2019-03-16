@@ -1,0 +1,11 @@
+
+Method 1:   暴力破解法
+        检查所有子字符串，看是否不含重复的字符（利用hashset判断contains关系）。
+        此思路比较简单，代码不再列出~
+        
+        Time Complexity: O（n^3)
+            For each substring we need to check all the characters, which will take a time (O(b-a),this assumes that the position of each substring
+               is a and b). For each given a, the time sum is O(
+        For each substring we need to check all the characters, which will take a time.
+        This assumes that the position of each substring is a, b. For a given a, the time sum is aa. Then the time of all operations is bbbb
+ 
