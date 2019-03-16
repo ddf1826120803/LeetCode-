@@ -4,6 +4,46 @@ Method 1:   暴力破解法
         此思路比较简单，代码不再列出~
         
         Time Complexity: O（n^3)
-        Space Complexity:
-        
-        We need a space to check if the substring contains duplicate characters, that is, depending on the size of the set, and set depends on the size of the string n and the size of the character set m.
+        Space Complexity: O(min(n,m))
+            We need a space to check if the substring contains duplicate characters, that is, depending on the size of the set, and set           depends on the size of the string n and the size of the character set m.
+ Method 2:  滑动窗口
+        我们会发现方法一做了很多重复性的工作，此方法可以避免。
+        public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        Set<Character> set = new HashSet<>();
+        int i=0,j=0,ans=0;
+        while(i<n&&j<n){
+            if(!set.contains(s.charAt(j))){
+                set.add(s.charAt(j));
+                j++;
+                ans = Math.max(ans,j-i);
+            }
+            else{
+                set.remove(s.charAt(i));
+                i++;
+            }
+        }
+        return ans;
+    }
+    
+    时间复杂度： O(2n) = O(n),最糟糕情况下，每个字符将被访问两次。
+    时间复杂度：与之前方法相同。
+
+Method 3:
+        优化的滑动窗口：
+        为定义的字符串集合(hashMap中维护的字符）添加字符索引，当发现相同字符时，直接跳到相同字符处；
+        public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        int ans = 0;
+        Map<Character,Integer> map = new HashMap<>();
+        for(int i=0,j = 0;j<n;j++){
+            if(map.containsKey(s.charAt(j))){
+                i = Math.max(map.get(s.charAt(j)),i);   //通过比较，保证相同字符是在窗口区间内，直接跳到相同字符处i，而不是慢慢滑动窗口区间左边界。
+            }
+            ans = Math.max(ans,j-i+1);   
+            map.put(s.charAt(j),j+1);
+        }
+        return ans;
+    }
+    
+    时间复杂度：O(n)
