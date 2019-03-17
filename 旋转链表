@@ -1,0 +1,29 @@
+public ListNode rotateRight(ListNode head, int k) {
+        if(head == null){    //排除空链表
+            return null;
+        }
+        int listLen = 0;
+        ListNode curr = head;
+        ListNode currPost = null;    
+            while(curr!=null){     //得到链表的长度
+                listLen++;
+                currPost = curr;
+                curr = curr.next;
+            }
+        int index = k % listLen;
+        if(index != 0){    
+            curr = head;
+            int tamp = 1;    
+                while(tamp<(listLen-index)){    //找到新的head   
+                    curr = curr.next;
+                    tamp++;
+                }                                  
+                currPost.next = head;
+                head = curr.next;
+                curr.next = null;
+                return head;
+        }
+        else{
+            return head;
+        }    
+    }
