@@ -1,17 +1,19 @@
-Method 1:  哈希表
-   Set<ListNode> nodesSeen = new HashSet<>();
+Method 1:  哈希表 
+   Set<ListNode> nodesVisited = new HashSet<>();
     while (head != null) {
-        if (nodesSeen.contains(head)) {
+        if (nodesVisited.contains(head)) {
             return true;
         } else {
-            nodesSeen.add(head);
+            nodesVisited.add(head);
         }
         head = head.next;
     }
     return false; 
     
+    时间复杂度：O(n)
+    空间复杂度：O(n)
     
-Method 2:   双指针法
+Method 2:   双指针法-使用快慢指针，二者终将相遇，极大降低空间复杂度（O(1))，时间复杂度(O(n))也是当降低。
 
   public boolean hasCycle(ListNode head) {
     if(head ==null || head.next == null){
