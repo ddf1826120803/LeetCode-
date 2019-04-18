@@ -1,0 +1,94 @@
+注：本题难度不大，注意处理多种情况即可。
+
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+class Solution {
+    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+        List<Interval> merge = new ArrayList<>();
+        boolean isStartInsert = false;  //判断插入区间的头是否找到确定位置
+
+        if(intervals.size() == 0){   //判断原区间为空
+            merge.add(newInterval);
+            isStartInsert = true;
+        }
+        for(int i=0;i<intervals.size();i++){
+            if(!isStartInsert){
+            	if(newInterval.start>intervals.get(i).end){
+               		merge.add(intervals.get(i));
+	            } 
+	            else if(newInterval.start<=intervals.get(i).start){
+                    //判断插入区间在两个区间之间
+                    if(newInterval.end<intervals.get(i).start){
+                        merge.add(newInterval);
+                        //将剩余元素插入到新的区间中
+                        insert(merge,intervals,i);
+                        return merge;
+                    }
+                    //判断插入区间的尾部是否与下一个区间头重叠
+                    else if(newInterval.end==intervals.get(i).start){
+                        merge.add(new Interval(newInterval.start,intervals.get(i).end));
+                        insert(merge,intervals,i+1);
+                        return merge;
+                    }
+                    else{
+                    	//普通情况
+                        merge.add(new Interval(newInterval.start,-1));
+	                    isStartInsert = true;  
+                    }
+	        
+	            }
+	            //插入区间的头部在某个区间中
+	            else{
+	                merge.add(intervals.get(i));
+	                //插入区间的尾部是否也在区间中
+	                if(newInterval.end<=intervals.get(i).end){
+	                    insert(merge,intervals,i+1);
+	                    return merge;
+	                } 
+	                isStartInsert = true;
+	            }
+            }
+            
+            if(isStartInsert){
+                if(newInterval.end<intervals.get(i).start){
+                   merge.get(merge.size()-1).end = newInterval.end;
+                   insert(merge,intervals,i);
+                   return merge;
+	            } 
+	            else if(newInterval.end>intervals.get(i).end){
+	                //插入区间的尾部在两个区间之间，否则检索下一个区间
+	                if(i==(intervals.size()-1)||newInterval.end<intervals.get(i+1).start){
+	           			merge.get(merge.size()-1).end = newInterval.end;
+	           		}
+	           		else{
+	           			continue;
+	           		}
+	              
+	            }
+	            else{
+	                merge.get(merge.size()-1).end = intervals.get(i).end;
+	                if(i<(intervals.size()-1)){
+	               		insert(merge,intervals,i+1);
+	               		return merge;
+	                }
+	            } 
+            }
+        }
+        if(!isStartInsert){
+          	merge.add(newInterval);
+        }  
+        return merge;
+    }
+    public static void insert(List<Interval> merge,List<Interval> intervals,int i){
+        for(int j = i;j<intervals.size();j++){
+            merge.add(intervals.get(j));
+        }
+    }
+}
