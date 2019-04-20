@@ -1,0 +1,56 @@
+注：归并思想
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+   public ListNode sortList(ListNode head) {
+       return head == null?null:merge_sort(head);
+   }
+   public ListNode merge_sort(ListNode head){
+       //设置递归边界条件
+       if(head.next == null){
+           return head;
+       }
+       ListNode index1 = head,index2 = head,pre = null;
+       //寻找区间中间值index1
+       while(index2 != null&& index2.next != null){
+           pre = index1;
+           index1 = index1.next;
+           index2 = index2.next.next;
+       }
+       pre.next = null;
+       ListNode l_head = merge_sort(head);
+       ListNode r_head = merge_sort(index1);
+       return merge(l_head,r_head);
+   }  
+   //合并区间，以null代替区间长度
+   public ListNode merge(ListNode l,ListNode r){
+       ListNode newHead = new ListNode(0);
+       ListNode tamp = newHead;
+       while(l !=null&& r!=null){
+           if(l.val<=r.val){
+             tamp.next = l;
+             l = l.next;
+             tamp = tamp.next;   
+           }
+           else{
+             tamp.next = r;
+             r = r.next;
+             tamp = tamp.next;   
+           }
+       }
+       if(l != null){
+           tamp.next = l;
+       }
+       if(r != null){
+           tamp.next = r;
+       }
+       return newHead.next;
+   } 
+}
